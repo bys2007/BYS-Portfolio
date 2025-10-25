@@ -1,0 +1,877 @@
+﻿<!doctype html>
+<html lang="id" class="scroll-smooth dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BYS — Portfolio</title>
+  <meta name="description" content="Portofolio BYS — Programmer, Editor & Desainer." />
+  <link rel="icon" href="assets/Logo bys.webp" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/vendor/photoswipe/photoswipe.css" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { display: ['Space Grotesk','ui-sans-serif','system-ui','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif'] },
+          colors: {
+            brand: {
+              50:'#ecfeff',100:'#cffafe',200:'#a5f3fc',300:'#67e8f9',400:'#38bdf8',
+              500:'#0ea5e9',600:'#0284c7',700:'#0369a1',800:'#075985',900:'#0c4a6e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .bg-grid { background-image:
+      linear-gradient(to right, rgba(100,116,139,.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(100,116,139,.12) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .panel { @apply rounded-3xl border border-slate-700/60 bg-slate-900/50 backdrop-blur; }
+    .chip { @apply inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-[5px] bg-slate-800 border border-slate-700/60; }
+    .btn { @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-[5px] bg-slate-100 text-slate-900 shadow hover:shadow-md transition; }
+    .btn-ghost { @apply inline-flex items-center gap-2 px-3 py-2 rounded-[5px] hover:bg-slate-800; }
+
+    .navlink {
+      display: inline-flex;
+      align-items: center;
+      padding: .25rem .75rem;
+      border-radius: 5px;
+      font-size: .875rem;
+      color: #94a3b8;
+      transition: color .2s ease, background .2s ease;
+    }
+    .navlink:hover {
+      color: rgb(226 232 240 / 1);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .dark .navlink:hover {
+      color: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.03);
+    }
+    .navlink.active {
+      color: #7dd3fc;
+      background: rgba(14,165,233,0.08);
+      box-shadow: 0 6px 18px -12px rgba(14,165,233,0.65);
+    }
+    .dark .navlink.active {
+      color: #7dd3fc;
+      background: rgba(14,165,233,0.12);
+      box-shadow: 0 6px 18px -12px rgba(56,189,248,0.45);
+    }
+
+    section { scroll-margin-top: 88px; }
+    .hero-bg { position: absolute; inset:0; overflow:hidden; border-radius: 1rem; }
+    .hero-bg::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+    .hero-bg img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity .9s ease; filter: contrast(1.05) saturate(.8); }
+    .hero-bg img.show { opacity: 0.75; }
+
+    .relative { position: relative; z-index: 20; }
+
+    .logo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      margin: 1rem 0;
+      width: 100%;
+    }
+    .logo-grid .logo-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      border-radius: 0.75rem;
+      transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+      color: inherit;
+      text-decoration: none;
+    }
+    .logo-grid .logo-link:hover,
+    .logo-grid .logo-link:focus-visible {
+      transform: translateY(-2px);
+      background-color: rgba(226,232,240,0.25);
+      box-shadow: 0 12px 20px -18px rgba(15,23,42,0.6);
+    }
+    .dark .logo-grid .logo-link:hover,
+    .dark .logo-grid .logo-link:focus-visible {
+      background-color: rgba(15,23,42,0.45);
+      box-shadow: 0 12px 20px -18px rgba(59,130,246,0.35);
+    }
+    .logo-grid img {
+      height: 2.5rem;
+      width: auto;
+      filter: grayscale(30%) opacity(0.8);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .logo-grid .logo-link:hover img,
+    .logo-grid .logo-link:focus-visible img {
+      filter: grayscale(0%) opacity(1);
+      transform: scale(1.12);
+    }
+
+    .side-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border-radius: 5px;
+      padding: 0.45rem 1.1rem;
+      border: 1.5px solid rgba(148,163,184,0.6);
+      background: rgba(226,232,240,0.35);
+      color: inherit;
+      transition: background .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease, transform .18s ease;
+      outline: none;
+    }
+    .dark .side-toggle {
+      border-color: rgba(71,85,105,0.7);
+      background: rgba(30,41,59,0.55);
+    }
+    .side-toggle:hover,
+    .side-toggle:focus-visible {
+      border-color: rgba(14,165,233,0.65);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
+      transform: translateY(-1px);
+    }
+    .dark .side-toggle:hover,
+    .dark .side-toggle:focus-visible {
+      border-color: rgba(56,189,248,0.65);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
+    }
+    .side-toggle.active {
+      border-color: rgba(14,165,233,0.7);
+      background: rgba(14,165,233,0.2);
+      color: #075985;
+      box-shadow: 0 10px 26px -14px rgba(14,165,233,0.8);
+    }
+    .dark .side-toggle.active {
+      border-color: rgba(56,189,248,0.7);
+      background: rgba(14,165,233,0.28);
+      color: #38bdf8;
+      box-shadow: 0 10px 26px -14px rgba(56,189,248,0.75);
+    }
+
+    .gallery-columns { column-count: 2; column-gap: 0.75rem; }
+    .gallery-item { break-inside: avoid; margin-bottom: 0.75rem; display: block; cursor: zoom-in; border-radius: 5px; overflow: hidden; transition: transform .18s ease, box-shadow .18s ease; }
+    .gallery-item:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -30px rgba(15,118,110,0.6); }
+    .gallery-item img { width: 100%; height: auto; display: block; }
+    @media (min-width: 768px) { .gallery-columns { column-count: 3; column-gap: 1rem; } }
+    @media (min-width: 1200px) { .gallery-columns { column-count: 4; } }
+
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-display">
+  <!-- Header / Navbar -->
+  <header class="sticky top-0 z-50 backdrop-blur bg-slate-950/80 border-b border-slate-800">
+    <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-2 font-semibold"><span>bys</span></a>
+      <div class="hidden md:flex items-center gap-2 text-sm">
+        <a class="btn-ghost navlink px-2" href="#home">Beranda</a>
+        <a class="btn-ghost navlink px-2" href="#about">Tentang</a>
+        <a class="btn-ghost navlink px-2" href="#projects">Projek</a>
+        <a class="btn-ghost navlink px-2" href="#journey">Perjalanan</a>
+        <a class="btn-ghost navlink px-2" href="#achievement">Pencapaian</a>
+        <a class="btn-ghost navlink px-2" href="#gallery">Galeri</a>
+        <a class="btn-ghost navlink px-2" href="#contact">Kontak</a>
+      </div>
+      <div class="flex items-center gap-2">
+
+        <a href="https://saweria.co/bys2007" target="_blank" rel="noopener" class="btn opacity-75 underline text-sm hover:opacity-100">Saweria</a>
+        <button id="menuBtn" class="md:hidden btn-ghost" aria-label="Menu">☰</button>
+      </div>
+    </nav>
+    <div id="mobileMenu" class="md:hidden hidden">
+      <div class="max-w-6xl mx-auto px-4 py-2 grid grid-cols-2 gap-1 text-sm">
+        <a class="btn-ghost navlink px-1" href="#home">Beranda</a>
+        <a class="btn-ghost navlink px-1" href="#about">Tentang</a>
+        <a class="btn-ghost navlink px-1" href="#projects">Projek</a>
+        <a class="btn-ghost navlink px-1" href="#journey">Perjalanan</a>
+        <a class="btn-ghost navlink px-1" href="#achievement">Pencapaian</a>
+        <a class="btn-ghost navlink px-1" href="#gallery">Galeri</a>
+        <a class="btn-ghost navlink px-1" href="#contact">Kontak</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 space-y-24 py-10">
+    <!-- Home / Hero -->
+    <section id="home" class="panel relative p-8">
+      <div class="hero-bg" aria-hidden="true">
+        <img src="assets\random_foto\PXL_20250430_102905563.webp" alt="" class="show"/>
+        <img src="assets\random_foto\20190829_175626.webp" alt="" />
+        <img src="assets\random_foto\1761310390106.webp" alt="" />
+        <img src="assets\random_foto\IMG_20231001_150225.webp" alt="" />
+        <img src="assets\random_foto\MyKisah.webp" alt="" />
+        <img src="assets\random_foto\Proyek Baru 96 [3EAA1D0].webp" alt="" />
+        <img src="assets\random_foto\Proyek Baru 154 [8E8C36F].webp" alt="" />
+        <img src="assets\random_foto\Gambar WhatsApp 2025-01-19 pukul 20.37.59_bf6f056d.webp" alt="" />
+        <img src="assets\random_foto\PXL_20231209_125610935.webp" alt="" />
+        <img src="assets\random_foto\PXL_20231209_145707732.webp" alt="" />
+      </div>
+      <div class="relative">
+        <div class="inline-flex items-center gap-2 chip mb-4">Selamat datang 👋</div>
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Brillian Yusuf Sejati <br /> <span class="text-brand-500">Programmer</span> & <span class="text-brand-500">Editor</span></h1>
+        <p class="mt-4 max-w-2xl">Suka membangun web, ngulik desain, dan menyunting video. Silakan jelajahi karya & perjalanan belajarku.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#projects" class="inline-flex bg-brand-600 hover:bg-brand-500 hover:scale-105 items-center mx-1 px-4 py-2 rounded-[1em] text-sm font-medium transition-all">
+            <span>Explore Projek</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 ml-1.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="assets/CV-BYS.pdf" class="inline-flex items-center mx-1 px-4 py-2 rounded-[1em] border border-brand-600 hover:border-brand-500 hover:scale-105 text-sm font-medium transition-all" target="_blank" download>
+            <span>Download CV</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 ml-1.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="panel bg-grid p-8">
+      <h2 class="text-2xl font-bold mb-6">Tentang</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="space-y-4">
+          <img src="assets/1761173511368.webp" alt="BYS" class="clickable-image w-full rounded-[1em] object-cover aspect-square cursor-zoom-in"/>
+        </div>
+        <div class="md:col-span-2 grid sm:grid-cols-2 gap-6 text-sm">
+          <div class="p-5 rounded-[10px] border border-slate-700/60 bg-slate-900/40 col-span-2">
+            <h2 class="font-semibold text-4xl mb-4">Brillian Yusuf Sejati</h2>
+            <p class="text-slate-300 leading-relaxed mt-2">
+              Siswa RPL di SMK N 5 Kendal yang fokus pada <span class="font-medium">pengembangan web front-end & back-end (dasar)</span> serta <span class="font-medium">creative editing</span>.
+              Terbiasa menyusun UI yang rapi, cepat, dan mudah dirawat; serta mengolah visual dengan atensi pada ritme & color. Siap berkolaborasi untuk project sekolah, lomba, maupun freelance kecil.
+              <br /><span class="font-medium">Perangkat : </span>
+              <a href="https://www.mi.co.id/id/product/redmi-10c/specs/" class="chip border-slate-300 text-brand-400 px-1 underline">Redmi 10C</a>, 
+              <a href="https://support.lenovo.com/id/id/solutions/pd500209-product-overview-v330-14arr" class="chip border-slate-300 text-brand-400 px-1 underline">Lenovo V330-14ARR</a>
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="font-semibold mt-4">Keahlian Teknis (Programming)</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="chip border border-slate-400 text-slate-200 px-1">HTML</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">CSS</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">JavaScript</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Tailwind</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">PHP/MySQL</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">XAMPP</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Python</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Java</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Firebase</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Arduino</span>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <h3 class="font-semibold mt-4">Keahlian Kreatif (Editing & Design)</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="chip border border-slate-400 text-slate-200 px-1">Alight Motion</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Premiere Pro</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">After Effects</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">CapCut</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Blender</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Canva</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Figma</span>
+              <span class="chip border border-slate-400 text-slate-200 px-1">Audacity</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects (I Have Two Side) -->
+    <section id="projects" class="panel bg-grid p-8">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <h2 class="text-2xl font-bold">Projek</h2>
+        <div class="flex flex-wrap items-center gap-3 text-sm">
+          <span class="font-semibold uppercase tracking-[0.25em] text-xs text-slate-400">I Have Two Side</span>
+          <div class="flex items-center gap-2">
+            <button id="sideDev" type="button" class="side-toggle active" aria-pressed="true">
+              Programmer
+            </button>
+            <button id="sideEdit" type="button" class="side-toggle" aria-pressed="false">
+              Editor &amp; Desainer
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="projectGrid" class="mt-6 space-y-6">
+        <!-- - Programmer Side -->
+        <div data-side="dev" class="space-y-8">
+          <div class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
+            <a href="https://rpl1-026.github.io/Website-RPL1-Skema-/" target="_blank" rel="noopener" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+              <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+                <img src="assets/projek_programmer/rpl1.webp" alt="Website Kelas RPL" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+              </figure>
+              <h3 class="font-semibold mb-1">Website Kelas RPL</h3>
+              <p class="text-sm opacity-80 mt-1">Multi-page + Firebase realtime chat.</p>
+            </a>
+            <a href="#" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+              <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+                <img src="assets/projek_programmer/portofolio.webp" alt="Portfolio BYS" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+              </figure>
+              <h3 class="font-semibold mb-1">Portfolio BYS</h3>
+              <p class="text-sm opacity-80 mt-1">Single page rapi &amp; cepat.</p>
+            </a>
+            <a href="https://github.com/bys2007/pengaduan" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+              <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+                <img src="assets/projek_programmer/pengaduan.webp" alt="Aplikasi Pengaduan" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+              </figure>
+              <h3 class="font-semibold mb-1">Pengaduan</h3>
+              <p class="text-sm opacity-80 mt-1">Platform laporan berbasis PHP &amp; MySQL.</p>
+            </a>
+            <a href="https://github.com/bys2007/perpustakaan" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+              <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+                <img src="assets/projek_programmer/perpustakaan.webp" alt="Sistem Perpustakaan" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+              </figure>
+              <h3 class="font-semibold mb-1">Perpustakaan</h3>
+              <p class="text-sm opacity-80 mt-1">Manajemen koleksi &amp; transaksi buku.</p>
+            </a>
+            <a href="https://github.com/bys2007/restoran" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+              <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+                <img src="assets/projek_programmer/restoran.webp" alt="Aplikasi Restoran" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+              </figure>
+              <h3 class="font-semibold mb-1">Restoran</h3>
+              <p class="text-sm opacity-80 mt-1">Sistem pemesanan meja &amp; menu.</p>
+            </a>
+            <a href="https://bys2007.github.io/Landing_Page-Dealer_bys/" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+              <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+                <img src="assets/projek_programmer/dealer.webp" alt="Dealer Otomotif" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+              </figure>
+              <h3 class="font-semibold mb-1">Dealer</h3>
+              <p class="text-sm opacity-80 mt-1">Landing Page Dealer Otomotif.</p>
+            </a>
+          </div>
+
+          <!-- Logo Grid -->
+          <div class="logo-grid">
+            <a href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="HTML5 documentation" title="HTML5">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" />
+            </a>
+            <a href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="CSS3 documentation" title="CSS3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3" />
+            </a>
+            <a href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="JavaScript documentation" title="JavaScript">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" />
+            </a>
+            <a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Tailwind CSS documentation" title="Tailwind CSS">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS" />
+            </a>
+            <a href="https://www.php.net/manual/en/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="PHP documentation" title="PHP">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg" alt="PHP" />
+            </a>
+            <a href="https://dev.mysql.com/doc/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="MySQL documentation" title="MySQL">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="MySQL" />
+            </a>
+            <a href="https://www.apachefriends.org/docs.html" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="XAMPP documentation" title="XAMPP">
+              <img src="https://www.apachefriends.org/images/xampp-logo-ac950edf.svg" alt="XAMPP" />
+            </a>
+            <a href="https://docs.python.org/3/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Python documentation" title="Python">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python" />
+            </a>
+            <a href="https://docs.oracle.com/javase/8/docs/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Java documentation" title="Java">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" alt="Java" />
+            </a>
+            <a href="https://docs.arduino.cc/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Arduino documentation" title="Arduino">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/arduino/arduino-original.svg" alt="Arduino" />
+            </a>
+            <a href="https://firebase.google.com/docs" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Firebase documentation" title="Firebase">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg" alt="Firebase" />
+            </a>
+          </div>
+        </div>
+
+        <!-- - Editor & Desainer Side -->
+        <div data-side="edit" class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 hidden">
+          <a href="https://youtu.be/o1mfzQlbZkI?si=5-6CpwYWxWIrr71X" target="_blank" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+            <iframe src="https://www.youtube.com/embed/o1mfzQlbZkI?si=ykIrFCYNzP_H2DRW" class="aspect-video mb-3 rounded-xl overflow-hidden" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <h3 class="font-semibold mb-1">Editing MV</h3>
+            <p class="text-sm opacity-80 mt-1">Sinkron audio-visual dengan motion graphic yang fokus efek.</p>
+          </a>
+          <a href="https://youtu.be/c7nYzKq3T1U?si=bsQyx0JHDRi5fyoZ" target="_blank" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+            <iframe src="https://www.youtube.com/embed/c7nYzKq3T1U?si=4P8U1YqZlGyU6Z94" class="aspect-video mb-3 rounded-xl overflow-hidden" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <h3 class="font-semibold mb-1">Gesang</h3>
+            <p class="text-sm opacity-80 mt-1">Video sekolah SFX, VFX, cutting, color grading, dan credit title.</p>
+          </a>
+          <a href="https://youtu.be/K5GZoUeebok?si=PCSesRP3_cZetrMH" target="_blank" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+            <iframe src="https://www.youtube.com/embed/K5GZoUeebok?si=0TCQPoBtoAA73CTe" class="aspect-video mb-3 rounded-xl overflow-hidden" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <h3 class="font-semibold mb-1">Editing MV</h3>
+            <p class="text-sm opacity-80 mt-1">Sinkron audio-visual dengan motion graphic yang menggunakan banyak aset.</p>
+          </a>
+          <a href="https://youtu.be/B3s76AHgAwQ?si=I4ZEuX8jap2jUslo" target="_blank" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+            <iframe src="https://www.youtube.com/embed/B3s76AHgAwQ?si=K-DqLgVQagzcXiJ-" class="aspect-video mb-3 rounded-xl overflow-hidden" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <h3 class="font-semibold mb-1">Editing MV</h3>
+            <p class="text-sm opacity-80 mt-1">Sinkron audio-visual dengan motion graphic Digimon.</p>
+          </a>
+          <a href="https://youtu.be/1CJb9JzMbkU?si=C3BYwHGjzko3uueL" target="_blank" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+            <iframe src="https://www.youtube.com/embed/1CJb9JzMbkU?si=niiNpRga_06rXDWi" class="aspect-video mb-3 rounded-xl overflow-hidden" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <h3 class="font-semibold mb-1">Editing MV</h3>
+            <p class="text-sm opacity-80 mt-1">Sinkron audio-visual dengan motion graphic nuansa gelap.</p>
+          </a>
+          <a href="https://youtu.be/5fuBhytK08Y?si=JElG0HvQrCROZe_U" target="_blank" class="block p-4 rounded-2xl border hover:shadow transition border-slate-700/60 bg-slate-900/40">
+            <iframe src="https://www.youtube.com/embed/5fuBhytK08Y?si=EVbBUzUl0T8AGPjZ" class="aspect-video mb-3 rounded-xl overflow-hidden" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <h3 class="font-semibold mb-1">Editing MV</h3>
+            <p class="text-sm opacity-80 mt-1">Sinkron audio-visual dengan menganimasikan setiap perbagian karakter.</p>
+          </a>
+        </div>
+        <!-- Logo Grid -->
+        <div class="logo-grid" data-side="edit">
+          <a href="https://alightmotion.com/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Alight Motion documentation" title="Alight Motion">
+            <img src="https://storage.googleapis.com/bsp-alight-creative-cms-public/content%2Fwebsite%2Fnews%2Frecgwcp6USGeVEtYV%2Flogo_black_bg.png" alt="Lightroom" />
+          </a>
+          <a href="https://helpx.adobe.com/premiere-pro/user-guide.html" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Premiere Pro documentation" title="Premiere Pro">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/premierepro/premierepro-original.svg" alt="Premiere Pro" />
+          </a>
+          <a href="https://helpx.adobe.com/after-effects/user-guide.html" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="After Effects documentation" title="After Effects">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/aftereffects/aftereffects-original.svg" alt="After Effects" />
+          </a>
+          <a href="https://docs.blender.org/manual/en/latest/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Blender documentation" title="Blender">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/blender/blender-original.svg" alt="Blender" />
+          </a>
+          <a href="https://support.capcut.com/hc/en-us" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="CapCut documentation" title="CapCut">
+            <img src="https://upload.wikimedia.org/wikipedia/id/3/36/CapCut_logo.png" alt="CapCut" />
+          </a>
+          <a href="https://www.canva.com/help/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Canva documentation" title="Canva">
+            <img src="https://static.canva.com/domain-assets/canva/static/images/android-192x192-2.png" alt="Canva" />
+          </a>
+          <a href="https://help.figma.com/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Figma documentation" title="Figma">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" />
+          </a>
+          <a href="https://manual.audacityteam.org/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Audacity documentation" title="Audacity">
+            <img src="https://www.audacityteam.org/_astro/Audacity_Logo.DK8H7nvr.svg" alt="Audacity" />
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Journey -->
+    <section id="journey" class="panel bg-grid p-8">
+      <h2 class="text-2xl font-bold mb-6">Perjalanan</h2>
+      <ol class="relative border-s border-slate-200 border-slate-700 pl-6 space-y-6">
+        <li>
+          <div class="absolute -left-1 top-0 w-2 h-2 rounded-full bg-brand-900"></div>
+          <h3 class="font-semibold">10 Oktober 2007</h3>
+          <p class="text-sm text-slate-300">Awal mula kehidupan.</p>
+        </li>
+        <li>
+          <div class="absolute -left-1 w-2 h-2 rounded-full bg-brand-800"></div>
+          <h3 class="font-semibold">2013-2014</h3>
+          <p class="text-sm text-slate-300">Sekolah kelas 1 di <a href="https://maps.app.goo.gl/aVZbsSCZ8uWSrVuA7" class="underline hover:text-slate-200">MI Miftahul 'Ulum (Batam)</a>. Sering main PS/warnet sama teman-teman.</p>
+        </li>
+        <li>
+          <div class="absolute -left-1 w-2 h-2 rounded-full bg-brand-700"></div>
+          <h3 class="font-semibold">2014-2016</h3>
+          <p class="text-sm text-slate-300">Sekolah kelas 2-3 di <a href="https://maps.app.goo.gl/8V5P5PkGpmm3eQuv8" class="underline hover:text-slate-200">SD N 2 Parakan Wetan (Temanggung)</a>.</p>
+        </li>
+        <li>
+          <div class="absolute -left-1 w-2 h-2 rounded-full bg-brand-600"></div>
+          <h3 class="font-semibold">2016-2020</h3>
+          <p class="text-sm text-slate-300">Sekolah kelas 4-6 di <a href="https://maps.app.goo.gl/fH9eQeinkcTYsiCt9" class="underline hover:text-slate-200">SD N 2 Bumiayu (Weleri)</a>. Awal mula tertarik & belajar editing video.</p>
+        </li>
+        <li>
+          <div class="absolute -left-1 w-2 h-2 rounded-full bg-brand-500"></div>
+          <h3 class="font-semibold">2020-2023</h3>
+          <p class="text-sm text-slate-300">Sekolah kelas 7-9 di <a href="https://maps.app.goo.gl/rFBfHmCu6K6i9uEs5" class="underline hover:text-slate-200">SMP N 3 Weleri</a>. Awal mula tertarik dengan dunia pemrograman, dari belajar oprek/root Android hanya untuk main game yang tidak kompatibel, hingga mulai belajar HTML/CSS dasar.</p>
+        </li>
+        <li>
+          <div class="absolute -left-1 w-2 h-2 rounded-full bg-brand-400"></div>
+          <h3 class="font-semibold">2023-2026 <span class="text-sm opacity-80">(saat ini)</span></h3>
+          <p class="text-sm text-slate-300">Sekolah kelas 10-12 di <a href="https://maps.app.goo.gl/y3sz9w1s9fX7eWNd8" class="underline hover:text-slate-200">SMK N 5 Kendal</a>. Masuk jurusan Rekayasa Perangkat Lunak (RPL) dan ikut ekstrakurikuler broadcasting (peran utama sebagai editor).</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Achievement -->
+    <section id="achievement" class="panel bg-grid p-8">
+      <h2 class="text-2xl font-bold mb-6">Pencapaian</h2>
+      <div class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
+        <div class="block p-4 rounded-2xl border border-slate-700/60 bg-slate-900/40 hover:shadow transition">
+          <iframe src="https://www.youtube.com/embed/wqxmua3fZlE?si=oCN5hLd4vRB8Srrw" class="aspect-video mb-3 rounded-xl overflow-hidden" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <h3 class="font-semibold mb-1">Juara 2 Lomba Video Drama Budaya Jawa Tengah</h3>
+          <p class="text-sm opacity-80 mt-1">Peran sebagai kamera & pemeran.</p>
+        </div>
+        <div class="block p-4 rounded-2xl border border-slate-700/60 bg-slate-900/40 hover:shadow transition">
+          <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+            <img src="assets\pencapaian\1761377441616.webp" alt="Dealer Otomotif" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+          </figure>
+          <h3 class="font-semibold mb-1">Sertifikat Pelatihan Cyber Security Telkom</h3>
+          <p class="text-sm opacity-80 mt-1">Pelatihan Cyber Security Telkom di SMK Negeri 8 Semarang.</p>
+        </div>
+        <div class="block p-4 rounded-2xl border border-slate-700/60 bg-slate-900/40 hover:shadow transition">
+          <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+            <img src="assets\pencapaian\TopLoker.webp" alt="Dealer Otomotif" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+          </figure>
+          <h3 class="font-semibold mb-1">Sertifikat Vokasi Pengelolaan E-BKK & Tracer Study</h3>
+          <p class="text-sm opacity-80 mt-1">Menyelesaikan Pelatihan Vokasi Pengelolaan E-BKK & Tracer Study oleh TopLoker.com.</p>
+        </div>
+        <div class="block p-4 rounded-2xl border border-slate-700/60 bg-slate-900/40 hover:shadow transition">
+          <figure class="aspect-video mb-3 rounded-xl overflow-hidden">
+            <img src="assets\pencapaian\1761377441607.webp" alt="Dealer Otomotif" loading="lazy" class="clickable-image w-full h-full object-cover cursor-zoom-in" />
+          </figure>
+          <h3 class="font-semibold mb-1">Juara 2 Lomba Desain Poster Digital Anti Narkoba</h3>
+          <p class="text-sm opacity-80 mt-1">Classmeeting Semester Genap SMK Negeri 5 Kendal Tahun Pelajaran 2023/2024.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="panel bg-grid p-8">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h2 class="text-2xl font-bold">Galeri</h2>
+        <p class="text-sm opacity-70">Berisi dokumentasi-dokumentasi kegiatan. <span class="font-semibold">Klik untuk memperbesar</span>.</p>
+      </div>
+      <div id="galleryGrid" class="gallery-columns pswp-gallery mt-6">
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="panel bg-grid p-8">
+      <h2 class="text-2xl font-bold mb-10">Kontak</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-3 text-sm">
+          <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+            <span class="chip">Domisili :</span>
+            <a class="underline" href="https://maps.app.goo.gl/ya2g8tUy6c3qWRAMA" target="_blank">Weleri, Kendal</a>
+          </div>
+          <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+            <span class="chip">WhatsApp :</span>
+            <a class="underline" href="https://wa.me/6283845879186" target="_blank">083845879186</a>
+          </div>
+          <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+            <span class="chip">Email :</span>
+            <a class="underline" href="mailto:un10102007@gmail.com" target="_blank">un10102007@gmail.com</a>
+          </div>
+        </div>
+        <div class="space-y-3 text-sm">
+          <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+            <span class="chip">GitHub :</span>
+            <a class="underline" href="https://github.com/bys2007" target="_blank">bys2007</a>
+          </div>
+          <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+            <span class="chip">Instagram :</span>
+            <a class="underline" href="https://instagram.com/bys.2007/" target="_blank">@bys.2007</a>
+          </div>
+          <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+            <span class="chip">TikTok :</span>
+            <a class="underline" href="https://www.tiktok.com/@bys.2007" target="_blank">@bys.2007</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer mini -->
+  <footer class="py-10 text-center text-xs opacity-70">
+    © <span id="year"></span> BYS — Dibuat sebagai portofolio.
+  </footer>
+
+  <!-- Modal Universal -->
+  <div id="imageModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-[70]">
+    <div class="relative max-w-[92vw] max-h-[92vh]">
+      <img id="modalImage" src="" alt="Gambar detail" class="max-w-full max-h-[92vh] object-contain rounded-2xl shadow-2xl" />
+      <button id="closeImageModal" class="absolute -top-3 -right-3 h-10 w-10 rounded-full text-slate-900 font-bold text-2xl leading-none shadow-lg">&times;</button>
+    </div>
+  </div>
+
+  <!-- Main JS -->
+  <script type="module">
+  import PhotoSwipeLightbox from './assets/vendor/photoswipe/photoswipe-lightbox.esm.min.js';
+  import PhotoSwipe from './assets/vendor/photoswipe/photoswipe.esm.min.js';
+  import PhotoSwipeDeepZoom from './assets/vendor/photoswipe/photoswipe-deep-zoom-plugin.esm.min.js';
+  // === Core helpers ===
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => [...document.querySelectorAll(sel)];
+  const body = document.body;
+
+  // === Modal untuk gambar non-galeri ===
+  const imageModal = $('#imageModal');
+  const modalImage = $('#modalImage');
+  const closeImageModal = $('#closeImageModal');
+
+  function openImageModal(src, altText = 'Gambar detail'){
+    if(!imageModal || !modalImage) return;
+    modalImage.src = src;
+    modalImage.alt = altText;
+    imageModal.classList.remove('hidden');
+    imageModal.classList.add('flex');
+    body.classList.add('overflow-hidden');
+  }
+
+  function hideImageModal(){
+    if(!imageModal || !modalImage) return;
+    modalImage.src = '';
+    modalImage.alt = 'Gambar detail';
+    imageModal.classList.add('hidden');
+    imageModal.classList.remove('flex');
+    body.classList.remove('overflow-hidden');
+  }
+
+  closeImageModal?.addEventListener('click', (event)=>{
+    event.stopPropagation();
+    hideImageModal();
+  });
+  imageModal?.addEventListener('click', (event)=>{
+    if(event.target === imageModal){ hideImageModal(); }
+  });
+  document.addEventListener('keydown', (event)=>{
+    if(event.key === 'Escape' && imageModal && !imageModal.classList.contains('hidden')){
+      hideImageModal();
+    }
+  });
+  document.addEventListener('click', (event)=>{
+    const target = event.target.closest('.clickable-image');
+    if(!target) return;
+    if(target.closest('#galleryGrid')) return; // gallery handled by PhotoSwipe
+    event.preventDefault();
+    const src = target.dataset.modalSrc || target.currentSrc || target.src;
+    const altText = target.dataset.modalAlt || target.alt || 'Gambar detail';
+    openImageModal(src, altText);
+  });
+
+  // === Navbar menu ===
+  $('#menuBtn')?.addEventListener('click', () => $('#mobileMenu').classList.toggle('hidden'));
+
+  // === Theme toggle ===
+  const root = document.documentElement;
+
+  // === Scrollspy (IntersectionObserver) ===
+  const navlinks = $$('.navlink');
+  const sectionIds = ['home','about','projects','journey','achievement','gallery','contact'];
+  let sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  let io = null;
+
+  function createScrollspy(){
+    if(io) try { io.disconnect(); } catch(e){}
+
+    sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+    io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        console.log(`Section ${entry.target.id}: intersecting=${entry.isIntersecting}, ratio=${entry.intersectionRatio.toFixed(2)}`);
+      });
+
+      const visible = entries.filter(e => e.isIntersecting);
+      if (visible.length === 0) return;
+
+      visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      const topSection = visible[0].target;
+      const topId = topSection.id;
+
+      console.log(`Setting active section to: ${topId}`);
+      navlinks.forEach(a => {
+        const href = a.getAttribute('href');
+        const shouldBeActive = href === '#' + topId;
+        a.classList.toggle('active', shouldBeActive);
+        if (shouldBeActive) {
+          console.log(`Activated link: ${href}`);
+        }
+      });
+    }, { 
+      root: null,
+      rootMargin: '-40px 0px -60% 0px',
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    });
+
+    sections.forEach(section => {
+      console.log(`Observing section: ${section.id}`);
+      io.observe(section);
+    });
+
+    console.log(`Scrollspy initialized with ${sections.length} sections`);
+  }
+
+  navlinks.forEach(a => {
+    a.addEventListener('click', (ev) => {
+      navlinks.forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+      const mobile = document.getElementById('mobileMenu');
+      if (mobile && !mobile.classList.contains('hidden')) mobile.classList.add('hidden');
+    });
+  });
+
+  createScrollspy();
+
+  // === Hero crossfade BG ===
+  const heroImgs = $$('#home .hero-bg img');
+  let heroIdx = 0; setInterval(()=>{
+    heroImgs[heroIdx].classList.remove('show');
+    heroIdx = (heroIdx + 1) % heroImgs.length;
+    heroImgs[heroIdx].classList.add('show');
+  }, 4500);
+
+  // === Project side toggle ===
+  const projectSections = $$('#projectGrid [data-side]');
+  const sideDevBtn = $('#sideDev');
+  const sideEditBtn = $('#sideEdit');
+  const logoTrack = $('#logoTrack');
+  let side = localStorage.getItem('bys_side') || 'dev';
+  if(!['dev','edit'].includes(side)) side = 'dev';
+  function paintProjects(){
+    localStorage.setItem('bys_side', side);
+    projectSections.forEach(section => {
+      const isActive = section.dataset.side === side;
+      section.classList.toggle('hidden', !isActive);
+    });
+    const isDev = side === 'dev';
+    if(sideDevBtn){
+      sideDevBtn.classList.toggle('active', isDev);
+      sideDevBtn.setAttribute('aria-pressed', String(isDev));
+    }
+    if(sideEditBtn){
+      sideEditBtn.classList.toggle('active', !isDev);
+      sideEditBtn.setAttribute('aria-pressed', String(!isDev));
+    }
+  }
+  paintProjects();
+  sideDevBtn?.addEventListener('click', ()=>{
+    if(side === 'dev') return;
+    side = 'dev';
+    if(logoTrack) blip(logoTrack);
+    paintProjects();
+  });
+  sideEditBtn?.addEventListener('click', ()=>{
+    if(side === 'edit') return;
+    side = 'edit';
+    if(logoTrack) blip(logoTrack);
+    paintProjects();
+  });
+
+  function blip(el){ el.classList.add('skew-blip'); setTimeout(()=> el.classList.remove('skew-blip'), 200); }
+
+  // === Gallery dynamic grid ===
+  const galleryGrid = $('#galleryGrid');
+  const GALLERY_MANIFEST_URL = 'assets/random_foto_manifest.json';
+  const FALLBACK_GALLERY = [
+    'assets/img/p1.jpg','assets/img/p2.jpg','assets/img/p3.jpg','assets/img/p4.jpg','assets/img/p5.jpg','assets/img/p6.jpg'
+  ];
+  let lightboxInstance = null;
+
+  function destroyLightbox(){
+    if(lightboxInstance){
+      lightboxInstance.destroy();
+      lightboxInstance = null;
+    }
+  }
+
+  function initLightbox(){
+    destroyLightbox();
+    lightboxInstance = new PhotoSwipeLightbox({
+      gallery: '#galleryGrid',
+      children: '.pswp-gallery__item',
+      pswpModule: () => Promise.resolve(PhotoSwipe),
+      allowPanToNext: false,
+      allowMouseDrag: true,
+      wheelToZoom: true,
+      zoom: false
+    });
+    new PhotoSwipeDeepZoom(lightboxInstance, { tileSize: 256 });
+    lightboxInstance.init();
+  }
+
+  function humanizeFilename(path){
+    const file = path.split('/').pop() || '';
+    const base = file.replace(/\.[^/.]+$/, '');
+    return base.replace(/[-_]+/g, ' ').trim() || 'Foto galeri';
+  }
+
+  function syncDimensions(anchor, image){
+    const { naturalWidth, naturalHeight } = image;
+    if(!naturalWidth || !naturalHeight) return;
+    anchor.dataset.pswpWidth = naturalWidth.toString();
+    anchor.dataset.pswpHeight = naturalHeight.toString();
+    if(!anchor.dataset.pswpMaxWidth) anchor.dataset.pswpMaxWidth = naturalWidth.toString();
+    if(!anchor.dataset.pswpMaxHeight) anchor.dataset.pswpMaxHeight = naturalHeight.toString();
+    if(!anchor.dataset.pswpMaxZoomWidth) anchor.dataset.pswpMaxZoomWidth = Math.round(naturalWidth * 1.5).toString();
+  }
+
+  function renderGallery(items){
+    if(!galleryGrid) return;
+    if(!items || items.length === 0){
+      galleryGrid.innerHTML = '<p class="text-sm opacity-70">Belum ada foto di galeri.</p>';
+      destroyLightbox();
+      return;
+    }
+    galleryGrid.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    items.forEach((item)=>{
+      const data = typeof item === 'string' ? { src: item } : item;
+      const src = data.src;
+      if(!src) return;
+      const figure = document.createElement('figure');
+      figure.className = 'gallery-item border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-900/60 shadow-sm';
+
+      const link = document.createElement('a');
+      link.href = src;
+      link.className = 'pswp-gallery__item block';
+      link.dataset.pswpSrc = src;
+      link.dataset.pswpWidth = '1600';
+      link.dataset.pswpHeight = '900';
+      link.dataset.pswpMaxWidth = '1600';
+      link.dataset.pswpMaxHeight = '900';
+      link.dataset.pswpMaxZoomWidth = '2400';
+      if(data.tileType) link.dataset.pswpTileType = data.tileType;
+      if(data.tileUrl) link.dataset.pswpTileUrl = data.tileUrl;
+      if(data.tileSize) link.dataset.pswpTileSize = String(data.tileSize);
+      if(typeof data.tileOverlap === 'number') link.dataset.pswpTileOverlap = String(data.tileOverlap);
+      if(data.maxWidth) link.dataset.pswpMaxWidth = String(data.maxWidth);
+      if(data.maxHeight) link.dataset.pswpMaxHeight = String(data.maxHeight);
+      if(data.maxZoomWidth) link.dataset.pswpMaxZoomWidth = String(data.maxZoomWidth);
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.loading = 'lazy';
+      img.alt = humanizeFilename(src);
+      img.className = 'w-full h-auto object-cover';
+
+      if(img.complete){
+        syncDimensions(link, img);
+      } else {
+        img.addEventListener('load', ()=> syncDimensions(link, img), { once: true });
+      }
+
+      link.appendChild(img);
+      figure.appendChild(link);
+      frag.appendChild(figure);
+    });
+    galleryGrid.appendChild(frag);
+    initLightbox();
+  }
+
+  async function loadGallery(){
+    try {
+      const res = await fetch(GALLERY_MANIFEST_URL, { cache: 'no-store' });
+      if(!res.ok) throw new Error(`Manifest not found (${res.status})`);
+      const data = await res.json();
+      const unique = Array.isArray(data) ? Array.from(new Set(data)) : [];
+      if(unique.length === 0) throw new Error('Manifest empty');
+      renderGallery(unique);
+    } catch (err) {
+      console.warn('Gallery manifest fallback:', err);
+      renderGallery(FALLBACK_GALLERY);
+    }
+  }
+  loadGallery();
+
+  // === Footer year ===
+  $('#year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
