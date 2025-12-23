@@ -63,7 +63,6 @@ Setiap perubahan pada `main` akan otomatis memperbarui GitHub Pages. Untuk jalur
 
 ## Kontak
 Silakan hubungi BYS untuk kolaborasi atau peluang baru:
-- WhatsApp: [083845879186](https://wa.me/6283845879186)
 - Email: [un10102007@gmail.com](mailto:un10102007@gmail.com)
 - GitHub: [github.com/bys2007](https://github.com/bys2007)
 - Instagram: [@bys.2007](https://instagram.com/bys.2007/)
