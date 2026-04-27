@@ -6,7 +6,7 @@ Repositori ini menyimpan kode sumber portofolio pribadi **Brillian Yusuf Sejati 
 - Produksi: [https://bys2007.github.io/BYS-Portfolio/](https://bys2007.github.io/BYS-Portfolio/)
 
 ## Tampilan Sekilas
-![Tangkapan layar portofolio BYS](assets/Screenshot%20(1580).png)
+![Tangkapan layar portofolio BYS](assets/Screenshot%20(1580).webp)
 
 ## Sorotan Proyek
 - Landing page satu halaman dengan tema gelap/terang dan animasi halus.
