@@ -37,7 +37,7 @@ The site is built with a single-page layout approach that flows smoothly, featur
 ├─ en.html                           # English version of the portfolio
 ├─ README.md                         # Project documentation (this file)
 └─ assets/
-   ├─ CV-BYS.pdf                     # BYS Curriculum Vitae (CV) file
+   ├─ CV — Brillian Yusuf Sejati     # BYS Curriculum Vitae (CV) file
    ├─ Logo bys.webp                  # Site Logo/Favicon
    ├─ Screenshot (1580).webp         # Project screenshot for README
    ├─ icon/                          # Technology & software icons
